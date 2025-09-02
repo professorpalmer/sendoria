@@ -1,0 +1,34 @@
+# Sendoria Discord Bot Configuration
+
+# Your Discord bot token (get from https://discord.com/developers/applications)
+BOT_TOKEN=YOUR_BOT_TOKEN_HERE
+
+# Discord channel IDs for each chat type
+# Right-click each channel in Discord → 'Copy ID' to get these numbers
+CHANNEL_Tell=1234567890
+CHANNEL_Party=1234567890
+CHANNEL_Linkshell1=1234567890
+CHANNEL_Linkshell2=1234567890
+CHANNEL_Say=1234567890
+CHANNEL_Shout=1234567890
+CHANNEL_Yell=1234567890
+CHANNEL_Unity=1234567890
+
+# ========================================
+# SETUP INSTRUCTIONS:
+# ========================================
+# 1. Make sure your file is named sendoria_config.txt
+# 2. Edit the bot token if needed
+# 3. Edit channel IDs to match your Discord server
+# 4. Save the file
+# 5. Run SendoriaBot.exe
+# ========================================
+# 
+# To get channel IDs:
+# - Right-click any channel in Discord
+# - Select "Copy ID"
+# - Paste the number in the corresponding line above
+# 
+# To skip a chat type, just delete or comment out that line
+# (add # at the beginning of the line)
+# ========================================
