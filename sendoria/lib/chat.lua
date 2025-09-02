@@ -108,7 +108,6 @@ function Chat.write_to_relay_file(chat_type, sender, message, direction)
             file:write(entry)
             file:flush() -- Force immediate write to disk
             file:close()
-
         end
     end, 0.001) -- Tiny delay to make it non-blocking
 end

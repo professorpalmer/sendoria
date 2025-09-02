@@ -52,12 +52,9 @@ end
 * Chat message event handler
 --]]
 windower.register_event('chat message', function(message, sender, mode, is_gm)
-
-
     -- Skip our own messages if outgoing monitoring is enabled (handled by outgoing chunk event)
     local player = windower.ffxi.get_player()
     if player and sender == player.name and settings.monitor_outgoing then
-
         return
     end
 
@@ -68,7 +65,6 @@ windower.register_event('chat message', function(message, sender, mode, is_gm)
 
     -- Check cooldown
     if not Chat.check_cooldown(chat_info.name, settings) then
-
         return
     end
 
@@ -78,8 +74,6 @@ windower.register_event('chat message', function(message, sender, mode, is_gm)
     coroutine.schedule(function()
         send_notification(sender, clean_message, chat_info.name)
     end, 0.1)
-
-
 end)
 
 --[[
@@ -161,13 +155,10 @@ windower.register_event('prerender', function()
         -- Check for Discord responses
         local responses = Chat.read_discord_responses(settings)
         for i, response in ipairs(responses) do
-
-
             -- Add a small delay between messages to prevent flooding
             coroutine.schedule(function()
                 local success, error_msg = Chat.inject_message_to_game(response.chat_type, response.message,
-                response.target)
-
+                    response.target)
             end, (i - 1) * 0.5) -- 0.5 second delay between each message
         end
     end
@@ -208,7 +199,6 @@ windower.register_event('addon command', function(command, ...)
         Commands.show_help()
     elseif command == 'multichar' then
         Commands.show_multichar_help()
-
     elseif command == 'relay' then
         if #args >= 1 then
             Commands.toggle_relay(settings, args[1]:lower(), function() Config.save(settings) end)
@@ -235,7 +225,6 @@ windower.register_event('addon command', function(command, ...)
         else
             windower.add_to_chat(123, 'Sendoria: Failed to create shutdown signal file.')
         end
-
     else
         windower.add_to_chat(123, 'Sendoria: Unknown command. Use //send help for available commands')
     end
@@ -247,21 +236,21 @@ end)
 local function auto_start_discord_bot()
     if settings.auto_start_bot then
         local addon_path = windower.addon_path or ''
-        
+
         -- Try multiple approaches to start the bot
         local bot_paths = {
             addon_path .. 'SendoriaBot_Silent.exe', -- Silent version (no console window)
             addon_path .. 'SendoriaBot.exe'         -- Console version as fallback
         }
-        
+
         windower.add_to_chat(123, 'Sendoria: Auto-starting Discord bot...')
-        
+
         local bot_started = false
         for i, bot_path in ipairs(bot_paths) do
             local file = io.open(bot_path, "r")
             if file then
                 file:close()
-                
+
                 -- Start the bot using the working method
                 os.execute('cd /d "' .. addon_path .. '" && start "" "' .. bot_path .. '"')
                 bot_started = true
@@ -269,10 +258,11 @@ local function auto_start_discord_bot()
                 break
             end
         end
-        
+
         if not bot_started then
             windower.add_to_chat(123, 'Sendoria: Auto-start enabled but no bot executable found.')
-            windower.add_to_chat(123, 'Sendoria: Please ensure SendoriaBot.exe or SendoriaBot_Silent.exe is in the addon folder.')
+            windower.add_to_chat(123,
+                'Sendoria: Please ensure SendoriaBot.exe or SendoriaBot_Silent.exe is in the addon folder.')
         end
     end
 end
@@ -283,11 +273,11 @@ end
 local function auto_stop_discord_bot()
     if settings.auto_start_bot then
         windower.add_to_chat(123, 'Sendoria: Auto-stopping Discord bot...')
-        
+
         -- Stop both versions of the bot
         os.execute('taskkill /F /IM "SendoriaBot_Silent.exe" >nul 2>&1')
         os.execute('taskkill /F /IM "SendoriaBot.exe" >nul 2>&1')
-        
+
         windower.add_to_chat(123, 'Sendoria: Discord bot stopped')
     end
 end
