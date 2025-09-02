@@ -1,3 +1,5 @@
+<img src="https://i.imgur.com/HTyEADB.png" width="400">
+
 # Sendoria - Discord Chat Relay
 
 Chat between FFXI and Discord seamlessly!
