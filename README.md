@@ -48,7 +48,7 @@ Chat between FFXI and Discord seamlessly!
 
 ### 5. Run the Bot
 **Option A: Automatic (Recommended)**
-- Enable autostart: `//send autostart on` in FFXI
+- Enable autostart: `//sn autostart on` in FFXI
 - The bot will automatically start/stop with the addon loading/unloading.
   - If you do not manually unload the addon, you will have to shut the silent script down via the Task Manager or it will run until PC restart.
 
@@ -59,14 +59,14 @@ Chat between FFXI and Discord seamlessly!
 ### 6. Enable Relay in FFXI
 Run these commands to start relaying:
 - `//lua l sendoria` - Load the addon
-- `//send autostart on` - Enable automatic bot management (recommended)
-- `//send relay on` - Enable relay mode
-- `//send tell on` - Enable tell relay
-- `//send outgoing on` - Show your character's own sent messages (optional)
-- `//send party on` - Enable party relay (optional)
-- `//send ls1 on` - Enable linkshell relay (optional)
+- `//sn autostart on` - Enable automatic bot management (recommended)
+- `//sn relay on` - Enable relay mode
+- `//sn tell on` - Enable tell relay
+- `//sn outgoing on` - Show your character's own sent messages (optional)
+- `//sn party on` - Enable party relay (optional)
+- `//sn ls1 on` - Enable linkshell relay (optional)
 
-**Note**: With autostart enabled, the Discord bot will automatically start when you load the addon and stop when you unload it. You can still manually control the bot with `//send stop` or by running the executable directly.
+**Note**: With autostart enabled, the Discord bot will automatically start when you load the addon and stop when you unload it. You can still manually control the bot with `//sn stop` or by running the executable directly.
 
 ## How to Use
 
@@ -75,24 +75,24 @@ Run these commands to start relaying:
 **Tells**: `/tell PlayerName message` in Discord
 
 ## FFXI Commands
-- `//send help` - Show commands
-- `//send autostart on/off` - Enable/disable automatic bot start/stop
-- `//send relay on/off` - Enable/disable relay mode
-- `//send party on/off` - Enable/disable party chat relay
-- `//send ls1 on/off` - Enable/disable linkshell relay
-- `//send tell on/off` - Enable/disable tell relay
-- `//send stop` - Manually stop the Discord bot
-- `//send status` - Show current settings status
+- `//sn help` - Show commands
+- `//sn autostart on/off` - Enable/disable automatic bot start/stop
+- `//sn relay on/off` - Enable/disable relay mode
+- `//sn party on/off` - Enable/disable party chat relay
+- `//sn ls1 on/off` - Enable/disable linkshell relay
+- `//sn tell on/off` - Enable/disable tell relay
+- `//sn stop` - Manually stop the Discord bot
+- `//sn status` - Show current settings status
 
 ## Troubleshooting
 - Make sure bot token is correct
 - Check channel IDs are valid
-- Verify relay is enabled: `//send relay on`
-- Check specific chat types are enabled: `//send status`
+- Verify relay is enabled: `//sn relay on`
+- Check specific chat types are enabled: `//sn status`
 - Bot needs Message Content Intent enabled in Discord Developer Portal
 - **Autostart Issues**: 
   - Ensure `SendoriaBot.exe` or `SendoriaBot_Silent.exe` is in the addon folder
-  - Check autostart status: `//send autostart` 
+  - Check autostart status: `//sn autostart` 
   - Try manual start if autostart fails: Double-click `SendoriaBot.exe`
 
 ---

@@ -8,7 +8,7 @@ _addon.name     = 'Sendoria'
 _addon.author   = 'Palmer (Zodiarchy @ Asura)'
 _addon.version  = '2.0'
 _addon.desc     = 'Bidirectional Discord chat relay for FFXI.'
-_addon.commands = { 'sendoria', 'send' }
+_addon.commands = { 'sendoria', 'sn' }
 
 require('tables')
 require('strings')
@@ -210,7 +210,7 @@ windower.register_event('addon command', function(command, ...)
             Commands.toggle_autostart(settings, args[1]:lower(), function() Config.save(settings) end)
         else
             windower.add_to_chat(123, 'Sendoria: Auto-start is ' .. (settings.auto_start_bot and 'ENABLED' or 'DISABLED'))
-            windower.add_to_chat(123, 'Usage: //send autostart <on/off>')
+            windower.add_to_chat(123, 'Usage: //sn autostart <on/off>')
         end
     elseif command == 'clean' then
         Commands.clean_relay_files(settings)
@@ -226,7 +226,7 @@ windower.register_event('addon command', function(command, ...)
             windower.add_to_chat(123, 'Sendoria: Failed to create shutdown signal file.')
         end
     else
-        windower.add_to_chat(123, 'Sendoria: Unknown command. Use //send help for available commands')
+        windower.add_to_chat(123, 'Sendoria: Unknown command. Use //sn help for available commands')
     end
 end)
 
@@ -293,4 +293,4 @@ end)
 coroutine.schedule(auto_start_discord_bot, 2.0) -- Delay 2 seconds to let addon fully initialize
 
 -- Print startup message
-windower.add_to_chat(123, 'Sendoria: Loaded successfully. Use //send help for commands.')
+windower.add_to_chat(123, 'Sendoria: Loaded successfully. Use //sn help for commands.')

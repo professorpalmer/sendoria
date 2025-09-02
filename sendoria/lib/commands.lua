@@ -12,7 +12,7 @@ function Commands.show_status(settings)
     windower.add_to_chat(123,
         'Sendoria: Webhook - ' .. (settings.webhook_url ~= '' and 'CONFIGURED' or 'NOT CONFIGURED'))
     windower.add_to_chat(123, 'Sendoria: Cooldown - ' .. settings.cooldown .. ' seconds')
-    windower.add_to_chat(123, 'Sendoria: Use //send help for commands')
+    windower.add_to_chat(123, 'Sendoria: Use //sn help for commands')
 end
 
 function Commands.show_monitoring_status(settings)
@@ -46,20 +46,20 @@ end
 
 function Commands.show_help()
     windower.add_to_chat(123, 'Sendoria Commands:')
-    windower.add_to_chat(123, '//send <type> <on/off> - Enable/disable chat types:')
-    windower.add_to_chat(123, '  Examples: //send tell on, //send party off, //send yell on')
+    windower.add_to_chat(123, '//sn <type> <on/off> - Enable/disable chat types:')
+    windower.add_to_chat(123, '  Examples: //sn tell on, //sn party off, //sn yell on')
     windower.add_to_chat(123, '  Types: tell, party, say, shout, yell, unity, ls1, ls2, outgoing')
 
-    windower.add_to_chat(123, '//send toggle - Toggle all relay on/off')
-    windower.add_to_chat(123, '//send status - Show monitoring status for all chat types')
+    windower.add_to_chat(123, '//sn toggle - Toggle all relay on/off')
+    windower.add_to_chat(123, '//sn status - Show monitoring status for all chat types')
 
-    windower.add_to_chat(123, '//send reload - Reload settings')
+    windower.add_to_chat(123, '//sn reload - Reload settings')
 
-    windower.add_to_chat(123, '//send help - Show this help')
-    windower.add_to_chat(123, '//send relay <on/off> - Enable/disable Discord relay mode')
-    windower.add_to_chat(123, '//send relay - Show relay configuration status')
-    windower.add_to_chat(123, '//send autostart <on/off> - Enable/disable auto-start Discord bot')
-    windower.add_to_chat(123, '//send clean - Clean old chat logs')
+    windower.add_to_chat(123, '//sn help - Show this help')
+    windower.add_to_chat(123, '//sn relay <on/off> - Enable/disable Discord relay mode')
+    windower.add_to_chat(123, '//sn relay - Show relay configuration status')
+    windower.add_to_chat(123, '//sn autostart <on/off> - Enable/disable auto-start Discord bot')
+    windower.add_to_chat(123, '//sn clean - Clean old chat logs')
     windower.add_to_chat(123, 'Discord: Type in Discord channels to send to game')
     windower.add_to_chat(123, 'Tells: Use "/tell PlayerName message" or "/t PlayerName message" in #tells channel')
 end
@@ -83,9 +83,9 @@ function Commands.show_relay_status(settings)
         windower.add_to_chat(123, 'Check Interval: ' .. settings.relay_interval .. ' seconds')
         windower.add_to_chat(123, 'Relay File: ' .. settings.relay_file_path)
         windower.add_to_chat(123, 'Response File: ' .. settings.response_file_path)
-        windower.add_to_chat(123, 'Use //send relay off to disable relay mode')
+        windower.add_to_chat(123, 'Use //sn relay off to disable relay mode')
     else
-        windower.add_to_chat(123, 'Use //send relay on to enable relay mode')
+        windower.add_to_chat(123, 'Use //sn relay on to enable relay mode')
     end
 end
 
@@ -101,7 +101,7 @@ function Commands.toggle_relay(settings, state, save_func)
         save_func()
         windower.add_to_chat(123, 'Sendoria: Relay mode disabled')
     else
-        windower.add_to_chat(123, 'Sendoria: Usage: //send relay <on/off>')
+        windower.add_to_chat(123, 'Sendoria: Usage: //sn relay <on/off>')
         return false
     end
     return true
@@ -139,7 +139,7 @@ function Commands.toggle_chat_monitoring(settings, chat_type, state, save_func)
         windower.add_to_chat(123, string.format('Sendoria: %s monitoring disabled', chat_type:upper()))
         return true
     else
-        windower.add_to_chat(123, string.format('Sendoria: Usage: //send %s <on/off>', chat_type))
+        windower.add_to_chat(123, string.format('Sendoria: Usage: //sn %s <on/off>', chat_type))
         return false
     end
 end
@@ -156,7 +156,7 @@ function Commands.toggle_autostart(settings, state, save_func)
         windower.add_to_chat(123, 'Sendoria: Auto-start Discord bot disabled')
         windower.add_to_chat(123, 'You will need to start Discord bot manually')
     else
-        windower.add_to_chat(123, 'Sendoria: Usage: //send autostart <on/off>')
+        windower.add_to_chat(123, 'Sendoria: Usage: //sn autostart <on/off>')
         windower.add_to_chat(123, 'Current: Auto-start is ' .. (settings.auto_start_bot and 'ENABLED' or 'DISABLED'))
         return false
     end
