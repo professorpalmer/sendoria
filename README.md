@@ -1,4 +1,6 @@
+<div align="center">
 <img src="https://i.imgur.com/HTyEADB.png" width="400">
+</div>
 
 # Sendoria - Discord Chat Relay
 
