@@ -284,7 +284,7 @@ if __name__ == "__main__":
     # Load configuration
     if not ensure_config():
         print("❌ Configuration failed. Exiting.")
-        input("Press Enter to exit...")
+        # Don't wait for input when running as background process
         sys.exit(1)
     
     print("✅ Configuration ready")
@@ -295,7 +295,9 @@ if __name__ == "__main__":
     except discord.LoginFailure:
         print("❌ ERROR: Invalid bot token!")
         print("Please check your bot token in sendoria_config.txt")
-        input("Press Enter to exit...")
+        # Don't wait for input when running as background process
+        sys.exit(1)
     except Exception as e:
         print(f"❌ ERROR: {e}")
-        input("Press Enter to exit...")
+        # Don't wait for input when running as background process
+        sys.exit(1)
