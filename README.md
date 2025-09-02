@@ -49,7 +49,8 @@ Chat between FFXI and Discord seamlessly!
 ### 5. Run the Bot
 **Option A: Automatic (Recommended)**
 - Enable autostart: `//send autostart on` in FFXI
-- The bot will automatically start/stop with the addon
+- The bot will automatically start/stop with the addon loading/unloading.
+  - If you do not manually unload the addon, you will have to shut the silent script down via the Task Manager or it will run until PC restart.
 
 **Option B: Manual**
 - Double-click `SendoriaBot.exe` (accept the Windows security warning)
