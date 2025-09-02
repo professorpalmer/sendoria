@@ -68,7 +68,7 @@ def load_config():
         print(f"✅ Bot token: {'*' * 20}{BOT_TOKEN[-10:] if BOT_TOKEN else 'NOT SET'}")
         print(f"✅ Channels configured: {len(CHANNEL_MAP)}")
         for chat_type, channel_id in CHANNEL_MAP.items():
-            print(f"   - {chat_type}: {channel_id}")
+            print(f"   - {chat_type}: ✅")
         
         return True
         
