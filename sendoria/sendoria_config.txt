@@ -18,8 +18,8 @@ CHANNEL_Unity=YOUR_UNITY_CHANNEL_ID
 # SETUP INSTRUCTIONS:
 # ========================================
 # 1. Make sure your file is named sendoria_config.txt
-# 2. Replace YOUR_BOT_TOKEN_HERE with your actual bot token
-# 3. Replace each YOUR_*_CHANNEL_ID with your Discord channel IDs
+# 2. Edit the bot token if needed
+# 3. Edit channel IDs to match your Discord server
 # 4. Save the file
 # 5. Run SendoriaBot.exe
 # ========================================

@@ -262,6 +262,17 @@ windower.register_event('addon command', function(command, ...)
         end
     elseif command == 'clean' then
         Commands.clean_relay_files(settings)
+    elseif command == 'stop' then
+        -- Create shutdown signal file for Discord bot
+        local shutdown_file = windower.addon_path .. 'bot_shutdown.txt'
+        local file = io.open(shutdown_file, 'w')
+        if file then
+            file:write('SHUTDOWN')
+            file:close()
+            windower.add_to_chat(123, 'Sendoria: Shutdown signal sent to Discord bot.')
+        else
+            windower.add_to_chat(123, 'Sendoria: Failed to create shutdown signal file.')
+        end
     else
         windower.add_to_chat(123, 'Sendoria: Unknown command. Use //send help for available commands')
     end
