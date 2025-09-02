@@ -3,6 +3,10 @@
 Sendoria Discord Bot v2.0
 Bidirectional Discord chat relay for FFXI
 Author: Palmer (Zodiarchy @ Asura)
+
+This is the script used to create the .exe file for the Sendoria Discord Bot. 
+You do NOT need to run this script to use the bot. You can use the bot by running the .exe file.
+This is purely for users who want to modify the bot to their own needs and want to verify the .exe is not malicious.
 """
 
 import discord
