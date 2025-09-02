@@ -43,17 +43,25 @@ Chat between FFXI and Discord seamlessly!
 - Add channel IDs to config file
 
 ### 5. Run the Bot
+**Option A: Automatic (Recommended)**
+- Enable autostart: `//send autostart on` in FFXI
+- The bot will automatically start/stop with the addon
+
+**Option B: Manual**
 - Double-click `SendoriaBot.exe` (accept the Windows security warning)
 - Keep it running for as long as you want to use the relay
 
 ### 6. Enable Relay in FFXI
 Run these commands to start relaying:
 - `//lua l sendoria` - Load the addon
+- `//send autostart on` - Enable automatic bot management (recommended)
 - `//send relay on` - Enable relay mode
 - `//send tell on` - Enable tell relay
 - `//send outgoing on` - Show your character's own sent messages (optional)
 - `//send party on` - Enable party relay (optional)
 - `//send ls1 on` - Enable linkshell relay (optional)
+
+**Note**: With autostart enabled, the Discord bot will automatically start when you load the addon and stop when you unload it. You can still manually control the bot with `//send stop` or by running the executable directly.
 
 ## How to Use
 
@@ -63,9 +71,13 @@ Run these commands to start relaying:
 
 ## FFXI Commands
 - `//send help` - Show commands
-- `//send party on` - Enable party chat relay
-- `//send ls1 on` - Enable linkshell relay
-- `//send tell on` - Enable tell relay
+- `//send autostart on/off` - Enable/disable automatic bot start/stop
+- `//send relay on/off` - Enable/disable relay mode
+- `//send party on/off` - Enable/disable party chat relay
+- `//send ls1 on/off` - Enable/disable linkshell relay
+- `//send tell on/off` - Enable/disable tell relay
+- `//send stop` - Manually stop the Discord bot
+- `//send status` - Show current settings status
 
 ## Troubleshooting
 - Make sure bot token is correct
@@ -73,6 +85,10 @@ Run these commands to start relaying:
 - Verify relay is enabled: `//send relay on`
 - Check specific chat types are enabled: `//send status`
 - Bot needs Message Content Intent enabled in Discord Developer Portal
+- **Autostart Issues**: 
+  - Ensure `SendoriaBot.exe` or `SendoriaBot_Silent.exe` is in the addon folder
+  - Check autostart status: `//send autostart` 
+  - Try manual start if autostart fails: Double-click `SendoriaBot.exe`
 
 ---
 Ready to go! Your chats now sync between FFXI and Discord. 🎮💬
