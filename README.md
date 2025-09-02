@@ -6,7 +6,7 @@
 
 Chat between FFXI and Discord seamlessly!
 
-📺 **[Watch the Video Setup Guide](https://youtu.be/oRqpuI03eHA)**
+📺 **[Watch the Video Setup Guide](https://youtu.be/bHziEsnsxG4)**
 
 ## Quick Setup
 
