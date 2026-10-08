@@ -1,0 +1,63 @@
+name: ci
+
+on:
+  push:
+    branches: [main, dev]
+    tags: ["v*"]
+  pull_request:
+
+permissions:
+  contents: write
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: sudo apt-get update && sudo apt-get install -y luajit
+      - run: pip install -r bot/requirements.txt pytest
+      - run: python -m pytest -q
+        working-directory: bot
+      - name: Lua syntax
+        run: for f in sendoria/sendoria.lua sendoria/lib/*.lua; do luajit -bl "$f" > /dev/null; done
+
+  windows:
+    needs: tests
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r bot/requirements.txt pyinstaller pytest
+      - run: python -m pytest -q
+        working-directory: bot
+      - run: python bot/build.py
+      - name: Smoke test the exe
+        shell: bash
+        run: |
+          mkdir smoke
+          cp sendoria/sendoria_config.example.txt smoke/
+          ./bot/dist/SendoriaBot.exe --dir smoke || true
+          test -f smoke/sendoria_config.txt
+          grep -q "Sendoria bot" smoke/sendoria_bot.log
+      - name: Package
+        shell: bash
+        run: |
+          mkdir -p package
+          cp -r sendoria package/
+          cp bot/dist/SendoriaBot.exe bot/dist/SendoriaBot_Silent.exe package/sendoria/
+          cd package && 7z a ../Sendoria.zip sendoria > /dev/null
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Sendoria
+          path: Sendoria.zip
+      - name: Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" Sendoria.zip --title "Sendoria $GITHUB_REF_NAME" --notes-file CHANGELOG.md

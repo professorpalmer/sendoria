@@ -1,0 +1,35 @@
+# Sendoria bot configuration
+# The bot copies this file to sendoria_config.txt on first start.
+# Edit sendoria_config.txt, not this file. Updates do not overwrite it.
+
+# Bot token: Developer Portal > your app > Bot > Reset Token
+BOT_TOKEN=YOUR_BOT_TOKEN_HERE
+
+# Discord channel ids (Discord Settings > Advanced > Developer Mode,
+# then right-click a channel > Copy Channel ID).
+# Only chat types with a channel are relayed. Delete a line to skip a type.
+# Two types can share one channel. Each line then shows its type.
+CHANNEL_Tell=YOUR_TELL_CHANNEL_ID
+CHANNEL_Party=YOUR_PARTY_CHANNEL_ID
+CHANNEL_Linkshell1=YOUR_LINKSHELL1_CHANNEL_ID
+CHANNEL_Linkshell2=YOUR_LINKSHELL2_CHANNEL_ID
+CHANNEL_Say=YOUR_SAY_CHANNEL_ID
+CHANNEL_Shout=YOUR_SHOUT_CHANNEL_ID
+CHANNEL_Yell=YOUR_YELL_CHANNEL_ID
+CHANNEL_Unity=YOUR_UNITY_CHANNEL_ID
+
+# Optional: one channel for every type that has no channel above.
+# In this channel, start Discord messages with /p, /l, /l2, /s, /sh, /y, /u, /t Name, or /r.
+#CHANNEL_Default=
+
+# Optional: with several characters online, the character that types
+# Discord messages. Default: the character that logged in first.
+#SEND_AS=
+
+# Optional: Discord user ids that can send to the game (comma separated).
+# Default: everyone who can post in the relay channels.
+#ALLOWED_USERS=
+
+# Optional: hide a repeated identical yell or shout for this many seconds.
+# 0 turns the filter off.
+#REPEAT_FILTER_SECONDS=300
