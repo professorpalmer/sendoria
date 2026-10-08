@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+*.pyc
+build/
+dist/
+*.spec
+sendoria/sendoria_config.txt
+sendoria/data/
+sendoria/*.exe
+sendoria/sendoria_*.out
+sendoria/sendoria_*.in
+sendoria/sendoria_*.hb
+sendoria/sendoria_*.taking
+sendoria/sendoria_*.tmp
+sendoria/sendoria_bot.*

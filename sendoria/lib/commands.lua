@@ -1,166 +1,117 @@
 --[[
-* Sendoria Commands Module
-* Handles all addon commands and user interaction
+* Sendoria //sn commands.
 --]]
+
+local Config = require('lib/config')
 
 local Commands = {}
 
-function Commands.show_status(settings)
-    windower.add_to_chat(123, 'Sendoria: Status - ' .. (settings.enabled and 'ENABLED' or 'DISABLED'))
-    windower.add_to_chat(123, 'Sendoria: Discord - ' .. (settings.discord_enabled and 'ENABLED' or 'DISABLED'))
-
-    windower.add_to_chat(123,
-        'Sendoria: Webhook - ' .. (settings.webhook_url ~= '' and 'CONFIGURED' or 'NOT CONFIGURED'))
-    windower.add_to_chat(123, 'Sendoria: Cooldown - ' .. settings.cooldown .. ' seconds')
-    windower.add_to_chat(123, 'Sendoria: Use //sn help for commands')
+local function say(text)
+    windower.add_to_chat(207, 'Sendoria: ' .. text)
 end
+Commands.say = say
 
-function Commands.show_monitoring_status(settings)
-    windower.add_to_chat(123, 'Sendoria Monitoring Status:')
-    windower.add_to_chat(123, 'Tells: ' .. (settings.monitor_tells and 'ON' or 'OFF'))
-    windower.add_to_chat(123, 'Party: ' .. (settings.monitor_party and 'ON' or 'OFF'))
-    windower.add_to_chat(123, 'Linkshell1: ' .. (settings.monitor_linkshell1 and 'ON' or 'OFF'))
-    windower.add_to_chat(123, 'Linkshell2: ' .. (settings.monitor_linkshell2 and 'ON' or 'OFF'))
-    windower.add_to_chat(123, 'Say: ' .. (settings.monitor_say and 'ON' or 'OFF'))
-    windower.add_to_chat(123, 'Shout: ' .. (settings.monitor_shout and 'ON' or 'OFF'))
-    windower.add_to_chat(123, 'Yell: ' .. (settings.monitor_yell and 'ON' or 'OFF'))
-    windower.add_to_chat(123, 'Unity: ' .. (settings.monitor_unity and 'ON' or 'OFF'))
-    windower.add_to_chat(123, 'Outgoing: ' .. (settings.monitor_outgoing and 'ON' or 'OFF'))
-    windower.add_to_chat(123,
-        'Batching: ' .. (settings.enable_batching and 'ON' or 'OFF') .. ' (interval: ' .. settings.batch_interval .. 's)')
-end
-
-function Commands.show_webhook_status(settings)
-    windower.add_to_chat(123, 'Sendoria Webhook Configuration:')
-    windower.add_to_chat(123, 'Main/Fallback: ' .. (settings.webhook_url ~= '' and 'CONFIGURED' or 'NOT SET'))
-    windower.add_to_chat(123, 'Tell: ' .. (settings.webhook_tell ~= '' and 'CONFIGURED' or 'Using Main'))
-    windower.add_to_chat(123, 'Party: ' .. (settings.webhook_party ~= '' and 'CONFIGURED' or 'Using Main'))
-    windower.add_to_chat(123, 'Linkshell1: ' .. (settings.webhook_linkshell1 ~= '' and 'CONFIGURED' or 'Using Main'))
-    windower.add_to_chat(123, 'Linkshell2: ' .. (settings.webhook_linkshell2 ~= '' and 'CONFIGURED' or 'Using Main'))
-    windower.add_to_chat(123, 'Say: ' .. (settings.webhook_say ~= '' and 'CONFIGURED' or 'Using Main'))
-    windower.add_to_chat(123, 'Shout: ' .. (settings.webhook_shout ~= '' and 'CONFIGURED' or 'Using Main'))
-    windower.add_to_chat(123, 'Yell: ' .. (settings.webhook_yell ~= '' and 'CONFIGURED' or 'Using Main'))
-    windower.add_to_chat(123, 'Unity: ' .. (settings.webhook_unity ~= '' and 'CONFIGURED' or 'Using Main'))
-    windower.add_to_chat(123, 'Configure webhooks in: /windower/addons/tellnotifier/data/settings.xml')
-end
-
-function Commands.show_help()
-    windower.add_to_chat(123, 'Sendoria Commands:')
-    windower.add_to_chat(123, '//sn <type> <on/off> - Enable/disable chat types:')
-    windower.add_to_chat(123, '  Examples: //sn tell on, //sn party off, //sn yell on')
-    windower.add_to_chat(123, '  Types: tell, party, say, shout, yell, unity, ls1, ls2, outgoing')
-
-    windower.add_to_chat(123, '//sn toggle - Toggle all relay on/off')
-    windower.add_to_chat(123, '//sn status - Show monitoring status for all chat types')
-
-    windower.add_to_chat(123, '//sn reload - Reload settings')
-
-    windower.add_to_chat(123, '//sn help - Show this help')
-    windower.add_to_chat(123, '//sn relay <on/off> - Enable/disable Discord relay mode')
-    windower.add_to_chat(123, '//sn relay - Show relay configuration status')
-    windower.add_to_chat(123, '//sn autostart <on/off> - Enable/disable auto-start Discord bot')
-    windower.add_to_chat(123, '//sn clean - Clean old chat logs')
-    windower.add_to_chat(123, 'Discord: Type in Discord channels to send to game')
-    windower.add_to_chat(123, 'Tells: Use "/tell PlayerName message" or "/t PlayerName message" in #tells channel')
-end
-
-function Commands.show_multichar_help()
-    windower.add_to_chat(123, 'Sendoria Multi-Character Setup:')
-    windower.add_to_chat(123, '1. Load addon on each character: //lua load tellnotifier')
-    windower.add_to_chat(123, '2. Each character gets their own settings file automatically')
-    windower.add_to_chat(123, '3. Set webhooks per character in settings.xml')
-    windower.add_to_chat(123, '4. For shared server, use same webhook URLs')
-    windower.add_to_chat(123, '5. For separate channels, use per-chat-type webhooks')
-    windower.add_to_chat(123, '6. Messages show [CharacterName] prefix for identification')
-    windower.add_to_chat(123, 'Example: [Palmer] FFXI Tell from Smacksterr: Hello!')
-end
-
-function Commands.show_relay_status(settings)
-    windower.add_to_chat(123, 'Sendoria Relay Status:')
-    windower.add_to_chat(123, 'Relay Mode: ' .. (settings.relay_enabled and 'ENABLED' or 'DISABLED'))
-    if settings.relay_enabled then
-        windower.add_to_chat(123, 'Chat Logging: ' .. (settings.relay_log_all_chat and 'ON' or 'OFF'))
-        windower.add_to_chat(123, 'Check Interval: ' .. settings.relay_interval .. ' seconds')
-        windower.add_to_chat(123, 'Relay File: ' .. settings.relay_file_path)
-        windower.add_to_chat(123, 'Response File: ' .. settings.response_file_path)
-        windower.add_to_chat(123, 'Use //sn relay off to disable relay mode')
-    else
-        windower.add_to_chat(123, 'Use //sn relay on to enable relay mode')
-    end
-end
-
-function Commands.toggle_relay(settings, state, save_func)
-    if state == 'on' or state == 'true' or state == '1' then
-        settings.relay_enabled = true
-        save_func()
-        windower.add_to_chat(123, 'Sendoria: Relay mode enabled')
-        windower.add_to_chat(123, 'Chat will be logged to: ' .. settings.relay_file_path)
-        windower.add_to_chat(123, 'Discord responses read from: ' .. settings.response_file_path)
-    elseif state == 'off' or state == 'false' or state == '0' then
-        settings.relay_enabled = false
-        save_func()
-        windower.add_to_chat(123, 'Sendoria: Relay mode disabled')
-    else
-        windower.add_to_chat(123, 'Sendoria: Usage: //sn relay <on/off>')
-        return false
-    end
-    return true
-end
-
-function Commands.clean_relay_files(settings)
-    local file_path = windower.addon_path .. settings.relay_file_path
-    local file = io.open(file_path, 'w')
-    if file then
-        file:close()
-        windower.add_to_chat(123, 'Sendoria: Chat relay file cleaned')
-    else
-        windower.add_to_chat(123, 'Sendoria: Failed to clean relay file')
-    end
-end
-
-function Commands.toggle_chat_monitoring(settings, chat_type, state, save_func)
-    local Config = require('lib/config')
-    local setting_name = Config.chat_type_map[chat_type]
-
-    if not setting_name then
-        windower.add_to_chat(123,
-            'Sendoria: Valid types: tells, party, linkshell1/ls1, linkshell2/ls2, say, shout, yell, unity, outgoing')
-        return false
-    end
-
-    if state == 'on' or state == 'true' or state == '1' then
-        settings[setting_name] = true
-        save_func()
-        windower.add_to_chat(123, string.format('Sendoria: %s monitoring enabled', chat_type:upper()))
+local function on_off(word)
+    if word == 'on' or word == 'true' or word == '1' then
         return true
-    elseif state == 'off' or state == 'false' or state == '0' then
-        settings[setting_name] = false
-        save_func()
-        windower.add_to_chat(123, string.format('Sendoria: %s monitoring disabled', chat_type:upper()))
-        return true
-    else
-        windower.add_to_chat(123, string.format('Sendoria: Usage: //sn %s <on/off>', chat_type))
+    elseif word == 'off' or word == 'false' or word == '0' then
         return false
     end
+    return nil
 end
 
-function Commands.toggle_autostart(settings, state, save_func)
-    if state == 'on' or state == 'true' or state == '1' then
-        settings.auto_start_bot = true
-        save_func()
-        windower.add_to_chat(123, 'Sendoria: Auto-start Discord bot enabled')
-        windower.add_to_chat(123, 'Discord bot will start/stop with addon load/unload')
-    elseif state == 'off' or state == 'false' or state == '0' then
-        settings.auto_start_bot = false
-        save_func()
-        windower.add_to_chat(123, 'Sendoria: Auto-start Discord bot disabled')
-        windower.add_to_chat(123, 'You will need to start Discord bot manually')
+local function state(value)
+    return value and 'ON' or 'off'
+end
+
+function Commands.help()
+    say('Commands (//sn or //sendoria):')
+    say('  status            relay, bot, and chat type state')
+    say('  on | off          relay everything on or off')
+    say('  <type> on|off     mute or unmute one type:')
+    say('                    tell party ls1 ls2 say shout yell unity outgoing')
+    say('  autostart on|off  start the bot with the addon')
+    say('  start | stop      start or stop the Discord bot')
+    say('  test [type]       send a test line to Discord (default: tell)')
+    say('In Discord: type in a channel. Tells: /t Name text, /r text, or reply to a tell.')
+end
+
+function Commands.status(settings, ctx)
+    say('Relay ' .. state(settings.enabled) .. ', character: ' .. (ctx.char() or 'not logged in'))
+    local bot = ctx.bot_status()
+    if not bot then
+        say('Bot: not running')
+    elseif not bot.online then
+        say('Bot: not running (last seen version ' .. bot.version .. ')')
+    elseif bot.protocol ~= ctx.protocol then
+        say('Bot: version ' .. bot.version .. ' does not match this addon. Update both.')
     else
-        windower.add_to_chat(123, 'Sendoria: Usage: //sn autostart <on/off>')
-        windower.add_to_chat(123, 'Current: Auto-start is ' .. (settings.auto_start_bot and 'ENABLED' or 'DISABLED'))
-        return false
+        say('Bot: online, version ' .. bot.version)
     end
-    return true
+    local types = {}
+    for _, chat_type in ipairs({ 'Tell', 'Party', 'Linkshell1', 'Linkshell2', 'Say', 'Shout', 'Yell', 'Unity' }) do
+        types[#types + 1] = chat_type .. ' ' .. state(settings[Config.type_settings[chat_type]])
+    end
+    say(table.concat(types, ', '))
+    say('Own messages ' .. state(settings.monitor_outgoing) .. ', autostart ' .. state(settings.auto_start_bot))
+end
+
+function Commands.handle(settings, ctx, command, args)
+    command = (command or ''):lower()
+    local switch = on_off((args[1] or ''):lower())
+
+    if command == '' or command == 'status' then
+        Commands.status(settings, ctx)
+    elseif command == 'help' then
+        Commands.help()
+    elseif command == 'on' or command == 'off' or command == 'toggle' or command == 'relay' then
+        local value = on_off(command)
+        if command == 'toggle' then
+            value = not settings.enabled
+        elseif command == 'relay' then
+            value = switch
+        end
+        if value == nil then
+            say('Usage: //sn on | off')
+            return
+        end
+        settings.enabled = value
+        Config.save(settings)
+        say('Relay ' .. state(value))
+    elseif Config.aliases[command] then
+        if switch == nil then
+            say('Usage: //sn ' .. command .. ' on|off')
+            return
+        end
+        settings[Config.aliases[command]] = switch
+        Config.save(settings)
+        say(command .. ' ' .. state(switch))
+    elseif command == 'autostart' then
+        if switch ~= nil then
+            settings.auto_start_bot = switch
+            Config.save(settings)
+        end
+        say('Autostart ' .. state(settings.auto_start_bot))
+    elseif command == 'start' then
+        ctx.start_bot(true)
+    elseif command == 'stop' then
+        say(ctx.stop_bot() and 'Stop signal sent to the bot.' or 'Could not write the stop signal.')
+    elseif command == 'test' then
+        local setting = Config.aliases[(args[1] or 'tell'):lower()]
+        local chat_type
+        for t, s in pairs(Config.type_settings) do
+            if s == setting then
+                chat_type = t
+            end
+        end
+        if not chat_type then
+            say('Usage: //sn test [tell|party|ls1|ls2|say|shout|yell|unity]')
+            return
+        end
+        say(ctx.test(chat_type) and ('Test line sent to the ' .. chat_type .. ' channel.') or 'Log in first.')
+    else
+        say('Unknown command. //sn help lists them.')
+    end
 end
 
 return Commands
